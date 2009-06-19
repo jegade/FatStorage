@@ -5,7 +5,7 @@ use warnings;
 use utf8;
 use File::Slurp qw/slurp/;
 use YAML qw/Load/;    # Lädt das Modul YAML und importiert die Funktion LoadFile
-use FatStorage::Schema;
+use FatStorage::Database;
 use Template();
 use Template::Stash::XS();
 use Data::Dumper;
@@ -113,7 +113,7 @@ sub schema {
     $config ||= config();
 
     # Schema zur DB
-    $schema = FatStorage::Schema->connect( @{ $config->{'Model::Database'}{connect_info} } );
+    $schema = FatStorage::Database->connect( @{ $config->{'Model::Database'}{connect_info} } );
 
     # Zusätzliche Parameter setzen
     $schema->media_dir( $config->{media_dir} );

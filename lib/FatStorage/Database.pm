@@ -7,10 +7,24 @@ use base 'DBIx::Class::Schema';
 
 __PACKAGE__->load_classes;
 
+__PACKAGE__->mk_classdata('media_dir');
 
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2009-06-19 21:51:42
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:GVFeXMdFHFOfgdPTM55w2Q
+=head2 sqlt_deploy_hook
+
+    Alle Datenbanken als UTF8 deployen
+
+=cut 
+
+sub sqlt_deploy_hook {
+
+   my ($self, $sqlt_schema) = @_;
+
+   for my $table ($sqlt_schema->get_tables) {
+     $table->extra(
+       mysql_charset => 'UTF8',
+     );
+   }
+}
 
 
-# You can replace this text with custom content, and it will be preserved on regeneration
 1;

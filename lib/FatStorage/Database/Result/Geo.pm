@@ -27,13 +27,13 @@ __PACKAGE__->add_columns(
 
     lat => {
         data_type     => "DECIMAL",
-        size          => [ 3, 10 ],
+        size          => [ 11, 8 ],
         default_value => "000.0000000000",
     },
 
     lon => {
         data_type     => "DECIMAL",
-        size          => [ 3, 10 ],
+        size          => [ 11, 8 ],
         default_value => "000.0000000000",
     },
 

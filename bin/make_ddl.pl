@@ -13,7 +13,7 @@ use FatStorage::Utils;
 my $schema = FatStorage::Utils->schema;
 
 # neue version
-my $old = 1;
+my $new = 1;
 
 # alte version ( optional )
 my $old = undef;

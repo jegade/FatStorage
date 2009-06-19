@@ -41,13 +41,12 @@ __PACKAGE__->add_columns(
     backup_date => {
         data_type     => "datetime",
         timezone      => "UTC",
-        default_value => "NOW()",
     },
 
 );
 
 # Primary-Key
-__PACKAGE__->set_primary_key(qw/file_id/);
+__PACKAGE__->set_primary_key(qw/backup_id/);
 
 # Beziehungen
 __PACKAGE__->belongs_to( 'file',    'FatStorage::Database::Result::File', 'file_id' );
