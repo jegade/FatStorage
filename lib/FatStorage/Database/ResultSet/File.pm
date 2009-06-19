@@ -96,12 +96,10 @@ sub fileimport {
         {
             filename => ( $filename || $md5 . "." . $filetype ),
             filesize => $filesize,
-            filetype => $filetype,
             md5      => $md5,
-            subdir   => $subdir,
             mimetype => $mimetype,
-            kind     => $kind,
             media_id => $media->media_id,
+            score_id => 1,
         }
     );
 

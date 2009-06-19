@@ -3,16 +3,6 @@ package FatStorage::Model::Database;
 use strict;
 use base 'Catalyst::Model::DBIC::Schema';
 
-__PACKAGE__->config(
-    schema_class => 'FatStorage::Database',
-    connect_info => [
-        'dbi:mysql:fatstorage',
-        'root',
-        'nac',
-        
-    ],
-);
-
 =head1 NAME
 
 FatStorage::Model::Database - Catalyst DBIC Schema Model

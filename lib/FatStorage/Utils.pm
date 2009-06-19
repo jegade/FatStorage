@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use utf8;
 use File::Slurp qw/slurp/;
-use YAML qw/Load/;    # Lädt das Modul YAML und importiert die Funktion LoadFile
 use FatStorage::Database;
 use Template();
 use Template::Stash::XS();
@@ -12,6 +11,7 @@ use Data::Dumper;
 use Log::Handler();
 use File::Temp();
 use Locale::Maketext::Simple( Export => "_loc", Path => '/www/FatStorage/lib/FatStorage/I18N', Decode => 1, );
+use Config::General;
 
 use base 'Exporter';
 use vars qw/@EXPORT_OK $base_path $config $schema $tt2 $log/;
@@ -52,8 +52,8 @@ sub config {
 
     return $config if ($config);
 
-    my $base_config_file  = "$path/../../FatStorage.yml";
-    my $local_config_file = "$path/../../FatStorage_dev.yml";
+    my $base_config_file  = "$path/../../fatstorage.conf";
+    my $local_config_file = "$path/../../fatstorage_dev.conf";
 
     # Default - Produktions-Config
     if ( -e $base_config_file ) {
@@ -86,14 +86,16 @@ sub _config_read {
     my ($config_file) = @_;
 
     # Datei einlesen
-    my $yaml_config = slurp($config_file);
+    my $xconfig = slurp($config_file);
 
     # Macros ersetzen
-    $yaml_config =~ s|__home__|$path/../../|gsixm;
-    $yaml_config =~ s|__path_to\((.*?)\)__|$path/../../$1|gsixm;
+    $xconfig =~ s|__home__|$path/../../|gsixm;
+    $xconfig =~ s|__path_to\((.*?)\)__|$path/../../$1|gsixm;
 
-    # YAML -> Hash
-    return Load($yaml_config);
+    my $conf   = new Config::General( -String => $xconfig);
+    my %config = $conf->getall;
+
+    return \%config;
 }
 
 =head2 schema
@@ -113,7 +115,7 @@ sub schema {
     $config ||= config();
 
     # Schema zur DB
-    $schema = FatStorage::Database->connect( @{ $config->{'Model::Database'}{connect_info} } );
+    $schema = FatStorage::Database->connect( $config->{'Model::Database'}{connect_info} );
 
     # Zusätzliche Parameter setzen
     $schema->media_dir( $config->{media_dir} );
@@ -247,7 +249,6 @@ sub parsedatetime {
 
 =cut
 
-
 =head2 tmpfile
 
     Erzeugt eine temporäre Datei
@@ -273,7 +274,6 @@ sub loc {
     _loc_lang($language);
     return _loc( $string, @args );
 }
-
 
 1;
 
