@@ -15,8 +15,10 @@ sub mediaimport {
 
     my ( $self, $files ) = @_;
 
+    # Neues Media initieren
     my $media = $self->create( {} );
 
+    # 
     foreach my $file (@$files) {
         $self->result_source->schema->resultset('File')->fileimport( $media , { sourcefile => $file, filename => "xxx.jpg" } );
     }

@@ -17,10 +17,8 @@ my $config = FatStorage::Utils->config;
 
 use Data::Dumper;
 
-print STDERR Dumper($config);
 
 my $schema = FatStorage::Utils->schema;
-
 
 # Alle Dateien als Set importieren
 my $media = $schema->resultset('Media')->mediaimport( \@files );
